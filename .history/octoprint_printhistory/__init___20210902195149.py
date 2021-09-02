@@ -297,7 +297,7 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
         return None
 
 
-__plugin_name__ = "打印历史"
+__plugin_name__ = "Print History Plugin"
 
 
 def __plugin_load__():

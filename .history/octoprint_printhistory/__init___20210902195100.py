@@ -278,7 +278,7 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
     def get_update_information(self):
         return dict(
             printhistory=dict(
-                displayName="打印历史",
+                displayName="Print History Plugin",
                 displayVersion=self._plugin_version,
 
                 # version check: github repository
@@ -297,7 +297,7 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
         return None
 
 
-__plugin_name__ = "打印历史"
+__plugin_name__ = "Print History Plugin"
 
 
 def __plugin_load__():

@@ -29,11 +29,10 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
 
     def on_after_startup(self):
         old_path = os.path.join(self.get_plugin_data_folder(), "history.yaml")
-        self._history_db_path = os.path.join(
-            self.get_plugin_data_folder(), "history.db")
+        self._history_db_path = os.path.join(self.get_plugin_data_folder(), "history.db")
 
         conn = sqlite3.connect(self._history_db_path)
-        cur = conn.cursor()
+        cur  = conn.cursor()
         create_sql = """\
         CREATE TABLE IF NOT EXISTS print_history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,22 +73,19 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
 
         # migration for existing tables
         try:
-            cur.execute(
-                'ALTER TABLE print_history ADD COLUMN spool TEXT NOT NULL DEFAULT "";')
+            cur.execute('ALTER TABLE print_history ADD COLUMN spool TEXT NOT NULL DEFAULT "";')
         except:
             pass
         conn.commit()
 
         try:
-            cur.execute(
-                'ALTER TABLE print_history ADD COLUMN user TEXT NOT NULL DEFAULT "";')
+            cur.execute('ALTER TABLE print_history ADD COLUMN user TEXT NOT NULL DEFAULT "";')
         except:
             pass
         conn.commit()
 
         try:
-            cur.execute(
-                'ALTER TABLE print_history ADD COLUMN parameters TEXT NOT NULL DEFAULT "";')
+            cur.execute('ALTER TABLE print_history ADD COLUMN parameters TEXT NOT NULL DEFAULT "";')
         except:
             pass
         conn.commit()
@@ -109,52 +105,44 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
             for historyHash in history_dict.keys():
                 historyDetails = history_dict[historyHash]
                 row = list()
-                row.append(historyDetails["fileName"]
-                           if "fileName" in historyDetails else None)
-                row.append(historyDetails["note"]
-                           if "note" in historyDetails else None)
-                row.append(historyDetails["filamentVolume"]
-                           if "filamentVolume" in historyDetails else None)
-                row.append(historyDetails["filamentLength"]
-                           if "filamentLength" in historyDetails else None)
-                row.append(historyDetails["printTime"]
-                           if "printTime" in historyDetails else None)
+                row.append(historyDetails["fileName"] if "fileName" in historyDetails else None)
+                row.append(historyDetails["note"] if "note" in historyDetails else None)
+                row.append(historyDetails["filamentVolume"] if "filamentVolume" in historyDetails else None)
+                row.append(historyDetails["filamentLength"] if "filamentLength" in historyDetails else None)
+                row.append(historyDetails["printTime"] if "printTime" in historyDetails else None)
                 success = historyDetails["success"] if "success" in historyDetails else None
                 row.append(1 if success is True else 0)
-                row.append(historyDetails["timestamp"]
-                           if "timestamp" in historyDetails else None)
+                row.append(historyDetails["timestamp"] if "timestamp" in historyDetails else None)
                 history.append(row)
 
-            cur.executemany(
-                '''INSERT INTO print_history (fileName, note, filamentVolume, filamentLength, printTime, success, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)''', history)
+            cur.executemany('''INSERT INTO print_history (fileName, note, filamentVolume, filamentLength, printTime, success, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)''', history)
             conn.commit()
 
-            os.rename(old_path, os.path.join(
-                self.get_plugin_data_folder(), "history.bak"))
+            os.rename(old_path, os.path.join(self.get_plugin_data_folder(), "history.bak"))
 
         conn.close()
 
-    # ~~ SettingsPlugin API
+    ##~~ SettingsPlugin API
     def get_settings_defaults(self):
         return dict(
             spool_inventory=[]
         )
 
-    # ~~ TemplatePlugin API
+    ##~~ TemplatePlugin API
     def get_template_configs(self):
         return [
-            dict(type="tab", name="打印历史"),
+            dict(type="tab", name="History"),
             dict(type="settings", template="printhistory_settings.jinja2")
         ]
 
-    # ~~ AssetPlugin API
+    ##~~ AssetPlugin API
     def get_assets(self):
         return {
             "js": ["js/printhistory.js", "js/jquery.flot.pie.js", "js/jquery.flot.time.js", "js/jquery.flot.stack.js"],
             "css": ["css/printhistory.css"]
         }
 
-    # ~~ EventPlugin API
+    #~~ EventPlugin API
     def on_event(self, event, payload):
         from . import eventHandler
         return eventHandler.eventHandler(self, event, payload)
@@ -180,15 +168,14 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
 
         def etag():
             conn = sqlite3.connect(self._history_db_path)
-            cur = conn.cursor()
-            cur.execute(
-                "SELECT changed_at FROM modifications ORDER BY changed_at DESC LIMIT 1")
+            cur  = conn.cursor()
+            cur.execute("SELECT changed_at FROM modifications ORDER BY changed_at DESC LIMIT 1")
             lm = cur.fetchone()
             conn.close()
 
             import hashlib
             hash = hashlib.sha1()
-            if sys.version_info >= (3, 0):
+            if sys.version_info >= (3,0):
                 hash.update(str(lm).encode())
             else:
                 hash.update(str(lm))
@@ -203,12 +190,13 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
                                           condition=lambda *args, **kwargs: condition(),
                                           unless=lambda: force)(view)()
 
+
     @octoprint.plugin.BlueprintPlugin.route("/history/<int:identifier>", methods=["DELETE"])
     def deleteHistoryData(self, identifier):
         self._history_dict = None
 
         conn = sqlite3.connect(self._history_db_path)
-        cur = conn.cursor()
+        cur  = conn.cursor()
         cur.execute("DELETE FROM print_history WHERE id = ?", (identifier,))
         conn.commit()
         conn.close()
@@ -220,12 +208,12 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
         from werkzeug.exceptions import BadRequest
 
         try:
-            json_data = request.json
-        except BadRequest:
-            return make_response("Malformed JSON body in request", 400)
+       		json_data = request.json
+       	except BadRequest:
+       		return make_response("Malformed JSON body in request", 400)
 
         if not "id" in json_data:
-            return make_response("No profile included in request", 400)
+       		return make_response("No profile included in request", 400)
 
         identifier = json_data["id"]
         note = json_data["note"] if "note" in json_data else ""
@@ -238,9 +226,8 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
         self._history_dict = None
 
         conn = sqlite3.connect(self._history_db_path)
-        cur = conn.cursor()
-        cur.execute("UPDATE print_history SET note = ?, spool = ?, user = ?, success = ?, filamentLength = ?, filamentVolume = ? WHERE id = ?",
-                    (note, spool, user, success, filamentLength, filamentVolume, identifier))
+        cur  = conn.cursor()
+        cur.execute("UPDATE print_history SET note = ?, spool = ?, user = ?, success = ?, filamentLength = ?, filamentVolume = ? WHERE id = ?", (note, spool, user, success, filamentLength, filamentVolume, identifier))
         conn.commit()
         conn.close()
 
@@ -260,10 +247,10 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
             return self._history_dict
 
         conn = sqlite3.connect(self._history_db_path)
-        cur = conn.cursor()
+        cur  = conn.cursor()
         cur.execute("SELECT * FROM print_history ORDER BY timestamp")
-        history_dict = [dict((cur.description[i][0], value)
-                             for i, value in enumerate(row)) for row in cur.fetchall()]
+        history_dict = [dict((cur.description[i][0], value) \
+                  for i, value in enumerate(row)) for row in cur.fetchall()]
 
         conn.close()
 
@@ -274,11 +261,11 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
 
         return self._history_dict
 
-    # ~~ Softwareupdate hook
+    ##~~ Softwareupdate hook
     def get_update_information(self):
         return dict(
             printhistory=dict(
-                displayName="打印历史",
+                displayName="Print History Plugin",
                 displayVersion=self._plugin_version,
 
                 # version check: github repository
@@ -296,16 +283,14 @@ class PrintHistoryPlugin(octoprint.plugin.StartupPlugin,
         self._comm = comm_instance
         return None
 
-
-__plugin_name__ = "打印历史"
-
+__plugin_name__ = "Print History Plugin"
 
 def __plugin_load__():
-    global __plugin_implementation__
-    __plugin_implementation__ = PrintHistoryPlugin()
+	global __plugin_implementation__
+	__plugin_implementation__ = PrintHistoryPlugin()
 
-    global __plugin_hooks__
-    __plugin_hooks__ = {
-        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
+	global __plugin_hooks__
+	__plugin_hooks__ = {
+		"octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
         "octoprint.comm.transport.serial.factory": __plugin_implementation__.factory_serial_handler
-    }
+	}

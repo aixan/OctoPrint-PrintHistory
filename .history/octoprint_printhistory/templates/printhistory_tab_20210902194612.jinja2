@@ -9,10 +9,10 @@
 </div>
 <div class="pull-right" style="clear: both;">
     <small>
-        显示打印:
-        <a href="#" data-bind="click: function() { listHelper.toggleFilter('all'); }"><i class="icon-ok" data-bind="style: {visibility: _.contains(listHelper.currentFilters(), 'all') ? 'visible' : 'hidden'}"></i> 全部</a>
-        <a href="#" data-bind="click: function() { listHelper.toggleFilter('successful'); }"><i class="icon-ok" data-bind="style: {visibility: _.contains(listHelper.currentFilters(), 'successful') ? 'visible' : 'hidden'}"></i> 成功</a>
-        <a href="#" data-bind="click: function() { listHelper.toggleFilter('failed'); }"><i class="icon-ok" data-bind="style: {visibility: _.contains(listHelper.currentFilters(), 'failed') ? 'visible' : 'hidden'}"></i> 失败</a>
+        Show prints:
+        <a href="#" data-bind="click: function() { listHelper.toggleFilter('all'); }"><i class="icon-ok" data-bind="style: {visibility: _.contains(listHelper.currentFilters(), 'all') ? 'visible' : 'hidden'}"></i> all</a>
+        <a href="#" data-bind="click: function() { listHelper.toggleFilter('successful'); }"><i class="icon-ok" data-bind="style: {visibility: _.contains(listHelper.currentFilters(), 'successful') ? 'visible' : 'hidden'}"></i> only successful</a>
+        <a href="#" data-bind="click: function() { listHelper.toggleFilter('failed'); }"><i class="icon-ok" data-bind="style: {visibility: _.contains(listHelper.currentFilters(), 'failed') ? 'visible' : 'hidden'}"></i> only failed</a>
     </small>
 </div>
 
@@ -105,7 +105,7 @@
 </div>
 
 <div style="float: left; width: 50%">
-    <h1>导出</h1>
+    <h1>输出</h1>
     <a href="#" data-bind="attr: {href: $root.export('csv'), css: {disabled: !$root.export('csv')}}">CSV</a> |
     <a href="#" data-bind="attr: {href: $root.export('csv_extra'), css: {disabled: !$root.export('csv_extra')}}">CSV Extra</a> |
     <a href="#" data-bind="attr: {href: $root.export('excel'), css: {disabled: !$root.export('excel')}}">Excel</a>
