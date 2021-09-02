@@ -123,21 +123,21 @@
     <div class="modal-body" data-bind="with: itemForEditing">
         <form class="form-horizontal" action="javascript:void(0)">
             <div class="control-group">
-                <label class="control-label">说明:</label>
+                <label class="control-label">Note:</label>
                 <div class="controls">
                     <input type="text" data-bind="value: note">
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">耗材:</label>
+                <label class="control-label">Spool:</label>
                 <div class="controls">
-                    <select data-bind="options: $parent.spool_inventory, optionsText: 'name', optionsValue: 'name', optionsCaption: '请选择耗材', value: spool"></select>
+                    <select data-bind="options: $parent.spool_inventory, optionsText: 'name', optionsValue: 'name', optionsCaption: 'Select spool', value: spool"></select>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label">用户:</label>
                 <div class="controls">
-                    <select data-bind="options: $parent.users.listHelper.items, optionsText: 'name', optionsValue: 'name', optionsCaption: '请选择用户', value: user"></select>
+                    <select data-bind="options: $parent.users.listHelper.items, optionsText: 'name', optionsValue: 'name', optionsCaption: 'Select user', value: user"></select>
                 </div>
             </div>
             <div class="control-group">
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">耗材长度:</label>
+                <label class="control-label">Filament length:</label>
                 <div class="controls">
                     <div class="input-append">
                         <input type="text" data-bind="value: filamentLength">
@@ -156,7 +156,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label">耗材体积:</label>
+                <label class="control-label">Filament volume:</label>
                 <div class="controls">
                     <div class="input-append">
                         <input type="text" data-bind="value: filamentVolume">
