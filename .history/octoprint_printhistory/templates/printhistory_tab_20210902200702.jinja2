@@ -43,8 +43,8 @@
             <td style="text-align: center;" data-bind="html: filamentUsage"></td>
             <td>
                 <div class="btn-group action-buttons" data-bind="visible: $root.loginState.isUser() && !$root.isPrinting()">
-                    <div class="btn btn-mini" data-bind="click: function() { $root.showDetailsDialog($data); }" title="{{ _('附加数据') }}"><i class="icon-wrench"></i></div>
-                    <div class="btn btn-mini" data-bind="click: function() { $root.removeFile($data.id); }" title="{{ _('删除') }}"><i class="icon-trash"></i></div>
+                    <div class="btn btn-mini" data-bind="click: function() { $root.showDetailsDialog($data); }" title="{{ _('Additional data') }}"><i class="icon-wrench"></i></div>
+                    <div class="btn btn-mini" data-bind="click: function() { $root.removeFile($data.id); }" title="{{ _('Remove') }}"><i class="icon-trash"></i></div>
                 </div>
             </td>
         </tr>
@@ -167,7 +167,7 @@
         </form>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">{{ _('取消') }}</a>
+        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">{{ _('Cancel') }}</a>
         <a href="#" class="btn btn-primary" data-bind="click: addUpdateDetails"><i></i> {{ _('保存') }}</a>
     </div>
 </div>

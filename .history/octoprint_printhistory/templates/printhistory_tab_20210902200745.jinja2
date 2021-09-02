@@ -43,7 +43,7 @@
             <td style="text-align: center;" data-bind="html: filamentUsage"></td>
             <td>
                 <div class="btn-group action-buttons" data-bind="visible: $root.loginState.isUser() && !$root.isPrinting()">
-                    <div class="btn btn-mini" data-bind="click: function() { $root.showDetailsDialog($data); }" title="{{ _('附加数据') }}"><i class="icon-wrench"></i></div>
+                    <div class="btn btn-mini" data-bind="click: function() { $root.showDetailsDialog($data); }" title="{{ _('Additional data') }}"><i class="icon-wrench"></i></div>
                     <div class="btn btn-mini" data-bind="click: function() { $root.removeFile($data.id); }" title="{{ _('删除') }}"><i class="icon-trash"></i></div>
                 </div>
             </td>
